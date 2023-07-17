@@ -16,7 +16,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 # from tqdm import tqdm
-
+print("Module import completed.")
 
 # Image data loaders.
 # At minimum, images need to be transformed to tensors and then normalized.
@@ -42,9 +42,11 @@ zoo_datasets = {x: datasets.ImageFolder(os.path.join(data_loc, x), data_transfor
 dataloaders = {x: torch.utils.data.DataLoader(zoo_datasets[x], batch_size=24,
                                               shuffle=True, num_workers=4)
                for x in ['train', 'valid']}  # , 'test']}
+print("Datasets loaded.")
 dataset_sizes = {x: len(zoo_datasets[x]) for x in ['train', 'valid']}  # , 'test']}
 class_names = zoo_datasets['train'].classes
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Current device: {device}")
 
 
 def imshow(inp, title=None):
@@ -73,4 +75,6 @@ out = make_grid(first5)
 
 plt.figure(figsize=(40, 40))
 imshow(out, title=[class_names[x] for x in classes_first5], file_name=[])
+print("Plots completed.")
 plt.savefig("zoo_visualisation_0.png")
+print("Figures saved.")
