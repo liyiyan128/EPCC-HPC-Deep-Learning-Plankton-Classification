@@ -74,7 +74,7 @@ classes_first5 = classes[:5]
 out = make_grid(first5)
 
 plt.figure(figsize=(40, 40))
-imshow(out, title=[class_names[x] for x in classes_first5], file_name=[])
+imshow(out, title=[class_names[x] for x in classes_first5])
 print("Plots completed.")
-plt.savefig("zoo_visualisation_0.png")
+plt.savefig("/work/m23ss/m23ss/liyiyan/EPCC-HPC-Deep-Learning-Plankton-Classification/src/CPRNet/zoo_visualise.png")
 print("Figures saved.")
