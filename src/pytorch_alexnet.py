@@ -1,18 +1,21 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
-from torch.optim import SGD
+# import torch.nn.functional as F
+import torch.optim as optim
+# from torch.optim import SGD
 from torchvision import transforms, datasets, models
-from torchvision.utils import make_grid, save_image
+from torchvision.models import AlexNet_Weights
+# from torchvision.utils import make_grid, save_image
 # from random import randint
 
-from ignite.engine import Events, create_supervised_trainer, create_supervised_evaluator
-from ignite.metrics import Accuracy, Loss
-from ignite.handlers import EarlyStopping, TerminateOnNan, ModelCheckpoint, Timer
+# from ignite.engine import Events, create_supervised_trainer, create_supervised_evaluator
+# from ignite.metrics import Accuracy, Loss
+# from ignite.handlers import EarlyStopping, TerminateOnNan, ModelCheckpoint, Timer
 
 import numpy as np
 # import matplotlib.pyplot as plt
 import os
+import time
 # import PIL
 from tqdm import tqdm
 
@@ -103,29 +106,29 @@ def train_loop(model_pkg, dataloaders, epochs, lr=0.001, momentum=0.9, log_inter
     pbar.close()
 
 
-class TransferModel(nn.Module):
-    """This is a class for a transfer learning model.
+# class TransferModel(nn.Module):
+#     """This is a class for a transfer learning model.
 
-    Creates a new NN model:
-    keep the structure and the weights of the features layers
-    and replace the original model classifier.
-    """
-    def __init__(self, original_model, classifier):
-        super(TransferModel, self).__init__()
+#     Creates a new NN model:
+#     keep the structure and the weights of the features layers
+#     and replace the original model classifier.
+#     """
+#     def __init__(self, original_model, classifier):
+#         super(TransferModel, self).__init__()
 
-        self.features = original_model.features
-        self.classifier = classifier
+#         self.features = original_model.features
+#         self.classifier = classifier
 
-        # Freeze original weights.
-        for param in self.features.parameters():
-            param.requires_grad = False
+#         # Freeze original weights.
+#         for param in self.features.parameters():
+#             param.requires_grad = False
 
-    def forward(self, x):
-        feats = self.features(x)
-        # Flatten network.
-        feats = feats.view(feats.size(0), np.prod(feats.shape[1:]))
-        y = self.classifier(feats)
-        return y
+#     def forward(self, x):
+#         feats = self.features(x)
+#         # Flatten network.
+#         feats = feats.view(feats.size(0), np.prod(feats.shape[1:]))
+#         y = self.classifier(feats)
+#         return y
 
 
 # Transform images to tensors and then normalise.
@@ -135,14 +138,20 @@ class TransferModel(nn.Module):
 # normalised using mean=[0.485, 0.456, 0.406] and std=[0.229, 0.224, 0.225].
 data_transforms = {
     'train': transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ]),
     'valid': transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ]),
     'test': transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
@@ -163,21 +172,158 @@ class_names = zoo_datasets['train'].classes
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Device available: {device}")
 
-# out_features=17
 
 # AlexNet.
-alexnet = models.alexnet(pretrained=True)
+# alexnet = torch.hub.load('pytorch/vision:v0.10.0', 'alexnet', pretrained=True)
+alexnet = models.alexnet()
+print("Load AlexNet.")
+# classifier = nn.Sequential(
+#     nn.Dropout(),
+#     nn.Linear(256 * 6 * 6, 4096),
+#     nn.ReLU(inplace=True),
+#     nn.Dropout(),
+#     nn.Linear(4096, 4096),
+#     nn.ReLU(inplace=True),
+#     nn.Linear(4096, 17),
+# )
 
-classifier = nn.Sequential(
-    nn.Dropout(),
-    nn.Linear(256 * 6 * 6, 4096),
-    nn.ReLU(inplace=True),
-    nn.Dropout(),
-    nn.Linear(4096, 4096),
-    nn.ReLU(inplace=True),
-    nn.Linear(4096, 17),
-)
+# alexnet_transfer = TransferModel(alexnet, classifier)
 
-alexnet_transfer = TransferModel(alexnet, classifier)
-model = ["alexnet_transfer", alexnet_transfer]
-train_loop(alexnet_transfer, dataloaders, epochs=10, lr=0.001, momentum=0.9)
+# Load weights.
+alexnet.load_state_dict(torch.load("/work/m23ss/m23ss/liyiyan/EPCC-HPC-Deep-Learning-Plankton-Classification/src/torch/hub/checkpoints/alexnet-owt-7be5be79.pth"))
+print("Model weights loaded")
+
+# Freeze model parameters.
+for param in alexnet.parameters():
+    param.requires_grad = False
+# Replace the last fully-connected layer for transfer learning
+alexnet.classifier[-1] = nn.Linear(4096, 17)  # num_classes for zooplankton is 17
+print("Refit AlexNet")
+
+model = ["alexnet", alexnet]
+print("Start train loop")
+train_loop(alexnet_transfer, dataloaders, epochs=2, lr=0.001, momentum=0.9)
+print("Training completed")
+
+# # Freeze model parameters.
+# for param in alexnet.parameters():
+#     param.requires_grad = False
+# # Replace the last fully-connected layer for transfer learning
+# alexnet.classifier[-1] = nn.Linear(4096, 17)  # num_classes for zooplankton is 17
+# # Softmax.
+# alexnet.classifier.add_module("7", nn.LogSoftmax(dim=1))
+
+# # Define optimiser and loss function.
+# loss_fn = nn.NLLLoss()
+# optimizer = optim.Adam(alexnet.parameters())
+
+# def train_and_validate(model, loss_criterion, optimizer, epochs=25):
+#     """
+#     Returns
+#         model: Trained model with best validation accuracy
+#         history: dictionary
+#     """
+#     start = time.time()
+#     history = []
+#     best_acc = 0.0
+
+#     for epoch in range(epochs):
+#         epoch_start = time.time()
+#         print("Epoch: {}/{}".format(epoch+1, epochs))
+        
+#         # Set to training mode
+#         model.train()
+        
+#         # Loss and Accuracy within the epoch
+#         train_loss = 0.0
+#         train_acc = 0.0
+        
+#         valid_loss = 0.0
+#         valid_acc = 0.0
+        
+#         for i, (inputs, labels) in enumerate(dataloaders):
+
+#             inputs = inputs.to(device)
+#             labels = labels.to(device)
+            
+#             # Clean existing gradients
+#             optimizer.zero_grad()
+            
+#             # Forward pass - compute outputs on input data using the model
+#             outputs = model(inputs)
+            
+#             # Compute loss
+#             loss = loss_criterion(outputs, labels)
+            
+#             # Backpropagate the gradients
+#             loss.backward()
+            
+#             # Update the parameters
+#             optimizer.step()
+            
+#             # Compute the total loss for the batch and add it to train_loss
+#             train_loss += loss.item() * inputs.size(0)
+            
+#             # Compute the accuracy
+#             ret, predictions = torch.max(outputs.data, 1)
+#             correct_counts = predictions.eq(labels.data.view_as(predictions))
+            
+#             # Convert correct_counts to float and then compute the mean
+#             acc = torch.mean(correct_counts.type(torch.FloatTensor))
+            
+#             # Compute total accuracy in the whole batch and add to train_acc
+#             train_acc += acc.item() * inputs.size(0)
+            
+#             # print("Batch number: {:03d}, Training: Loss: {:.4f}, Accuracy: {:.4f}".format(i, loss.item(), acc.item()))
+
+            
+#         # Validation - No gradient tracking needed
+#         with torch.no_grad():
+
+#             # Set to evaluation mode
+#             model.eval()
+
+#             # Validation loop
+#             for j, (inputs, labels) in enumerate(valid_data_loader):
+#                 inputs = inputs.to(device)
+#                 labels = labels.to(device)
+
+#                 # Forward pass - compute outputs on input data using the model
+#                 outputs = model(inputs)
+
+#                 # Compute loss
+#                 loss = loss_criterion(outputs, labels)
+
+#                 # Compute the total loss for the batch and add it to valid_loss
+#                 valid_loss += loss.item() * inputs.size(0)
+
+#                 # Calculate validation accuracy
+#                 ret, predictions = torch.max(outputs.data, 1)
+#                 correct_counts = predictions.eq(labels.data.view_as(predictions))
+
+#                 # Convert correct_counts to float and then compute the mean
+#                 acc = torch.mean(correct_counts.type(torch.FloatTensor))
+
+#                 # Compute total accuracy in the whole batch and add to valid_acc
+#                 valid_acc += acc.item() * inputs.size(0)
+
+#                 #print("Validation Batch number: {:03d}, Validation: Loss: {:.4f}, Accuracy: {:.4f}".format(j, loss.item(), acc.item()))
+            
+#         # Find average training loss and training accuracy
+#         avg_train_loss = train_loss/train_data_size 
+#         avg_train_acc = train_acc/train_data_size
+
+#         # Find average training loss and training accuracy
+#         avg_valid_loss = valid_loss/valid_data_size 
+#         avg_valid_acc = valid_acc/valid_data_size
+
+#         history.append([avg_train_loss, avg_valid_loss, avg_train_acc, avg_valid_acc])
+                
+#         epoch_end = time.time()
+    
+#         print("Epoch : {:03d}, Training: Loss: {:.4f}, Accuracy: {:.4f}%, \n\t\tValidation : Loss : {:.4f}, Accuracy: {:.4f}%, Time: {:.4f}s".format(epoch+1, avg_train_loss, avg_train_acc*100, avg_valid_loss, avg_valid_acc*100, epoch_end-epoch_start))
+        
+#         # Save if the model has best accuracy till now
+#         # torch.save(model, dataset+'_model_'+str(epoch)+'.pt')
+            
+#     return model, history
