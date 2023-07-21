@@ -1,16 +1,16 @@
 import torch
 import torch.nn as nn
-# import torch.nn.functional as F
+import torch.nn.functional as F
 import torch.optim as optim
-# from torch.optim import SGD
+from torch.optim import SGD
 from torchvision import transforms, datasets, models
 from torchvision.models import AlexNet_Weights
-# from torchvision.utils import make_grid, save_image
+from torchvision.utils import make_grid, save_image
 # from random import randint
 
-# from ignite.engine import Events, create_supervised_trainer, create_supervised_evaluator
-# from ignite.metrics import Accuracy, Loss
-# from ignite.handlers import EarlyStopping, TerminateOnNan, ModelCheckpoint, Timer
+from ignite.engine import Events, create_supervised_trainer, create_supervised_evaluator
+from ignite.metrics import Accuracy, Loss
+from ignite.handlers import EarlyStopping, TerminateOnNan, ModelCheckpoint, Timer
 
 import numpy as np
 # import matplotlib.pyplot as plt
@@ -202,7 +202,7 @@ print("Refit AlexNet")
 
 model = ["alexnet", alexnet]
 print("Start train loop")
-train_loop(alexnet_transfer, dataloaders, epochs=2, lr=0.001, momentum=0.9)
+train_loop(model, dataloaders, epochs=2, lr=0.001, momentum=0.9)
 print("Training completed")
 
 # # Freeze model parameters.
