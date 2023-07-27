@@ -42,10 +42,11 @@ def model_evaluator(model, weights, dataset, top_k_class=5,
     weights
         The path to the weights file of the model.
     dataset
-        The dataset on which the model is trained.
+        The test dataset on which the model is trained.
     top_k_class, default=5
         The top k classes in the dataset.
     """
+    model = model.to(device)
     model.load_state_dict(torch.load(weights))
     model.eval()
     evaluator = create_supervised_evaluator(
@@ -63,12 +64,12 @@ def model_evaluator(model, weights, dataset, top_k_class=5,
     metrics = evaluator.state.metrics
     avg_accuracy = metrics['accuracy']
     val_avg_nll = metrics['nll']
-    confusion_matrix = metrics['confusionmatrix']
+    confusion_matrix = metrics['confusion_matrix']
     top_k_accuracy = metrics['top_k_accuracy']
     confusion_numpy = confusion_matrix.numpy()
 
     print(
-            "Model: {}".format(model.__name__)
+            "Model: {}".format(model.__class__.__name__)
          )
     print(
             "Total Time taken: {:.1f}".format(timer.total) + " seconds \n"
@@ -156,11 +157,31 @@ for param in alexnet.parameters():
     param.requires_grad = False
 # Replace the last fully-connected layer for transfer learning.
 alexnet.classifier[-1] = nn.Linear(4096, 17)  # num_classes of zooplankton is 17
-# print("Refit AlexNet")
+print("Refit AlexNet")
 
-
-# Evaluate AlexNet
+# Evaluate AlexNet.
 weights = "/work/m23ss/m23ss/liyiyan/EPCC-HPC-Deep-Learning-Plankton-Classification/src/transfer_learning_models/alexnet_mymodel_-0.1119.pt"
 dataset = "test"
 model_evaluator(alexnet, weights, dataset, top_k_class=5,
-                save_confusion=False, saved_file_name="confusion_matrix.png")
+                save_confusion=True, saved_file_name="alexnet_confusion_matrix.pdf")
+
+
+# Load VGG11.
+vgg11 = models.vgg11()
+print("Load VGG11")
+# # Load pretrained weights.
+# vgg11.load_state_dict(torch.load("/work/m23ss/m23ss/liyiyan/EPCC-HPC-Deep-Learning-Plankton-Classification/src/torch/hub/checkpoints/vgg11-8a719046.pth"))
+# print("Pretrained weights loaded")
+
+# Freeze model parameters.
+for param in vgg11.parameters():
+    param.requires_grad = False
+# Replace the last fully-connected layer for transfer learning.
+vgg11.classifier[-1] = nn.Linear(in_features=4096, out_features=17, bias=True)  # num_classes of zooplankton is 17
+print("Refit VGG11")
+
+# Evaluate VGG11.
+weights = "/work/m23ss/m23ss/liyiyan/EPCC-HPC-Deep-Learning-Plankton-Classification/src/transfer_learning_models/vgg/VGG11_mymodel_-0.0650.pt"
+dataset = "test"
+model_evaluator(vgg11, weights, dataset, top_k_class=5,
+                save_confusion=True, saved_file_name="vgg_confusion_matrix.pdf")
