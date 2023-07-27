@@ -31,7 +31,7 @@ from tqdm import tqdm
 def model_evaluator(model, weights, dataset, top_k_class=5,
                     save_confusion=False,
                     saved_file_name="confusion_matrix.png"):
-    """Evaluate the model.
+    """Evaluate the model and visualise the confusion matrix.
 
     This function assumes that the dataset is loaded onto GPU.
 
@@ -160,7 +160,7 @@ alexnet.classifier[-1] = nn.Linear(4096, 17)  # num_classes of zooplankton is 17
 
 
 # Evaluate AlexNet
-weights = "/work/m23ss/m23ss/liyiyan/EPCC-HPC-Deep-Learning-Plankton-Classification/src/torch/hub/checkpoints/alexnet-owt-7be5be79.pth"
+weights = "/work/m23ss/m23ss/liyiyan/EPCC-HPC-Deep-Learning-Plankton-Classification/src/transfer_learning_models/alexnet_mymodel_-0.1119.pt"
 dataset = "test"
 model_evaluator(alexnet, weights, dataset, top_k_class=5,
                 save_confusion=False, saved_file_name="confusion_matrix.png")
