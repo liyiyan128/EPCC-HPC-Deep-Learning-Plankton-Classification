@@ -1,6 +1,7 @@
 # Deep Learning: Image Classification Using CNN
 
-This is my EPCC (University of Edinburgh) HPC summer school project on Deep Learning: Image Classification Using CNN on the Zooplankton Dataset. This project is based on the work of Tong (MSc in High Performance Computing at EPCC). [[1]](#reference)
+This is my EPCC (University of Edinburgh) HPC summer school project on Deep Learning: Image Classification Using CNN on the Zooplankton Dataset.
+This project is based on the work of Tong (MSc in High Performance Computing at EPCC). [[1]](#reference) The code for `train_loop` and `model_evaluator` is from Tong's work.
 This work used the Cirrus UK National Tier-2 HPC Service at EPCC (http://www.cirrus.ac.uk) funded by the University of Edinburgh and EPSRC (EP/P020267/1).
 
 The model training and other computationally intensive work were done on Cirrus. Therefore, I used Python scripts instead of Jupyter notebooks, which made it easier for me to work with the job scheduler (Slurm).
@@ -41,7 +42,8 @@ More details can be found in [alexnet_transfer_learning.py](https://github.com/l
 - The images are of size $255 \times 255$ pixels (standard input size for most CNN architectures).
 - There are 43 classes of zooplankton. Some classes have as little as 15 images, which is insufficient for machine learning tasks. Therefore, the dataset is reduced to only 17 classes with at least 1000 images for each class.
 
-![Visualisation of the Zooplankton dataset: five images from five different classes](https://github.com/liyiyan128/EPCC-HPC-Deep-Learning-Plankton-Classification/blob/main/src/planktons.png)
+Below is a visualisation of the Zooplankton dataset:
+![planktons](https://github.com/liyiyan128/EPCC-HPC-Deep-Learning-Plankton-Classification/blob/main/src/planktons.png "Images of Zooplanktons from Distinct Classes.")
 
 ## Reference
 
