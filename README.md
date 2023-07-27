@@ -1,10 +1,11 @@
 # Deep Learning: Image Classification Using CNN
 
-This is my EPCC (University of Edinburgh) HPC summer school project on Deep Learning: Image Classification Using CNN on the Zooplankton Dataset. This work used the Cirrus UK National Tier-2 HPC Service at EPCC (http://www.cirrus.ac.uk) funded by the University of Edinburgh and EPSRC (EP/P020267/1).
+This is my EPCC (University of Edinburgh) HPC summer school project on Deep Learning: Image Classification Using CNN on the Zooplankton Dataset. This project is based on the work of Tong (MSc in High Performance Computing at EPCC). [[1]](#reference)
+This work used the Cirrus UK National Tier-2 HPC Service at EPCC (http://www.cirrus.ac.uk) funded by the University of Edinburgh and EPSRC (EP/P020267/1).
 
 The model training and other computationally intensive work were done on Cirrus. Therefore, I used Python scripts instead of Jupyter notebooks, which made it easier for me to work with the job scheduler (Slurm).
 
-In this project, AlexNet was used as a Transfer Learning model.
+In this project, AlexNet was used as a Transfer Learning model and was compared to VGG.
 
 Contents:
 
@@ -17,7 +18,7 @@ Contents:
 
 ## AlexNet
 
-*AlexNet* is a deep convolutional neural network (CNN) developed by Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton in 2012. [[1]](#reference)
+*AlexNet* is a deep convolutional neural network (CNN) developed by Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton in 2012. [[2]](#reference)
 
 AlexNet was one of the first Deep Learning models that utilised a deep architecture with multiple layers, which allows complex hierarchical features to be captured. AlexNet architecture consists of eight layers: five convolutional layers and three fully-connected layers. Each convolutional layer applies a set of learnable filters (kernels) to the input image. These filters detect various patterns and features in different regions of the image.
 
@@ -44,4 +45,6 @@ More details can be found in [alexnet_transfer_learning.py](https://github.com/l
 
 ## Reference
 
-[1] Krizhevsky A, Sutskever I, Hinton GE. ImageNet Classification with Deep Convolutional Neural Networks. In: Pereira F, Burges CJC, Bottou L, Weinberger KQ, editors. Advances in Neural Information Processing Systems 25 (NIPS 2012). Curran Associates, Inc.; 2012. p. 1097–1105.
+[1] Tong Y Y. Investigating Deep Learning Approaches for Robust Zooplankton Identification [master's thesis]. The University of Edinburgh; 2019.
+
+[2] Krizhevsky A, Sutskever I, Hinton GE. ImageNet Classification with Deep Convolutional Neural Networks. In: Pereira F, Burges CJC, Bottou L, Weinberger KQ, editors. Advances in Neural Information Processing Systems 25 (NIPS 2012). Curran Associates, Inc.; 2012. p. 1097–1105.
