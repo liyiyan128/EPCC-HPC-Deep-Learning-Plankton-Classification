@@ -6,7 +6,7 @@ Loading pytorch/1.13.1-gpu
              This can result in unexpected behavior including runtime errors.
              Reinstall Horovod using `pip install --no-cache-dir` to build with the new version.
   warnings.warn(get_version_mismatch_message(name, version, installed_version))
-Matplotlib created a temporary config/cache directory at /dev/shm/liyiyan_4686485/matplotlib-0_el42yy because the default path (/home/m23ss/m23ss/liyiyan/.config/matplotlib) is not a writable directory; it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+Matplotlib created a temporary config/cache directory at /dev/shm/liyiyan_4686490/matplotlib-zwpd0l52 because the default path (/home/m23ss/m23ss/liyiyan/.config/matplotlib) is not a writable directory; it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
 Datasets loaded
 Sizes: {'valid': 1700, 'test': 1700}
 Classes: ['amphipoda', 'barnacle', 'centropages', 'cladocera', 'corycaeus', 'cyphonautes', 'echinoderm_larvae', 'jellyfish_type1', 'jellyfish_type2', 'radiolarian', 'rhizosolenia', 'shrimp', 'siphonophora', 'temora', 'thaliacea_dark', 'thaliacea_light', 'unidentified_small_copepod']
@@ -16,12 +16,26 @@ Refit AlexNet
 /mnt/lustre/indy2lfs/work/m23ss/m23ss/liyiyan/EPCC-HPC-Deep-Learning-Plankton-Classification/src/alexnet_evaluate.py:86: MatplotlibDeprecationWarning: The seaborn styles shipped by Matplotlib are deprecated since 3.6, as they no longer correspond to the styles shipped by seaborn. However, they will remain available as 'seaborn-v0_8-<style>'. Alternatively, directly use the seaborn API instead.
   mpl.style.use('seaborn')
 Model: AlexNet
-Total Time taken: 2.6 seconds 
+Total Time taken: 2.7 seconds 
 
 Validation Results -  
 
  Avg Accuracy: 95.29 
  Avg Loss: 0.1331 
+
+Avg Top 5 Accuracy: 100.00 
+
+Load VGG11
+Refit VGG11
+/mnt/lustre/indy2lfs/work/m23ss/m23ss/liyiyan/EPCC-HPC-Deep-Learning-Plankton-Classification/src/alexnet_evaluate.py:86: MatplotlibDeprecationWarning: The seaborn styles shipped by Matplotlib are deprecated since 3.6, as they no longer correspond to the styles shipped by seaborn. However, they will remain available as 'seaborn-v0_8-<style>'. Alternatively, directly use the seaborn API instead.
+  mpl.style.use('seaborn')
+Model: VGG
+Total Time taken: 2.3 seconds 
+
+Validation Results -  
+
+ Avg Accuracy: 97.47 
+ Avg Loss: 0.0813 
 
 Avg Top 5 Accuracy: 100.00 
 
