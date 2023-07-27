@@ -1,0 +1,27 @@
+Loading pytorch/1.13.1-gpu
+  Loading requirement: nvidia/cudnn/8.6.0-cuda-11.6 nvidia/tensorrt/8.4.3.1-u2
+    gcc/8.2.0 nvidia/nvhpc-nompi/22.2 openmpi/4.1.4-cuda-11.6 python/3.10.8-gpu
+    libsndfile/1.0.28
+/mnt/lustre/indy2lfs/sw/horovod/0.26.1-gpu/python/3.10.8/lib/python3.10/site-packages/horovod/common/util.py:258: UserWarning: Framework pytorch installed with version 1.13.1+cu117 but found version 1.13.1+cu116.
+             This can result in unexpected behavior including runtime errors.
+             Reinstall Horovod using `pip install --no-cache-dir` to build with the new version.
+  warnings.warn(get_version_mismatch_message(name, version, installed_version))
+Matplotlib created a temporary config/cache directory at /dev/shm/liyiyan_4686485/matplotlib-0_el42yy because the default path (/home/m23ss/m23ss/liyiyan/.config/matplotlib) is not a writable directory; it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+Datasets loaded
+Sizes: {'valid': 1700, 'test': 1700}
+Classes: ['amphipoda', 'barnacle', 'centropages', 'cladocera', 'corycaeus', 'cyphonautes', 'echinoderm_larvae', 'jellyfish_type1', 'jellyfish_type2', 'radiolarian', 'rhizosolenia', 'shrimp', 'siphonophora', 'temora', 'thaliacea_dark', 'thaliacea_light', 'unidentified_small_copepod']
+Device available: cuda
+Load AlexNet
+Refit AlexNet
+/mnt/lustre/indy2lfs/work/m23ss/m23ss/liyiyan/EPCC-HPC-Deep-Learning-Plankton-Classification/src/alexnet_evaluate.py:86: MatplotlibDeprecationWarning: The seaborn styles shipped by Matplotlib are deprecated since 3.6, as they no longer correspond to the styles shipped by seaborn. However, they will remain available as 'seaborn-v0_8-<style>'. Alternatively, directly use the seaborn API instead.
+  mpl.style.use('seaborn')
+Model: AlexNet
+Total Time taken: 2.6 seconds 
+
+Validation Results -  
+
+ Avg Accuracy: 95.29 
+ Avg Loss: 0.1331 
+
+Avg Top 5 Accuracy: 100.00 
+
