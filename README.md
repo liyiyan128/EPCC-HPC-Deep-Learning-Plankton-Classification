@@ -42,8 +42,8 @@ More details can be found in [alexnet_transfer_learning.py](https://github.com/l
 - The images are of size $255 \times 255$ pixels (standard input size for most CNN architectures).
 - There are 43 classes of zooplankton. Some classes have as little as 15 images, which is insufficient for machine learning tasks. Therefore, the dataset is reduced to only 17 classes with at least 1000 images for each class.
 
-Below is a visualisation of the Zooplankton dataset:
-![planktons](https://github.com/liyiyan128/EPCC-HPC-Deep-Learning-Plankton-Classification/blob/main/src/planktons.png "Images of Zooplanktons from Distinct Classes.")
+Below is a visualisation of the Zooplankton dataset: Images of Zooplanktons from Five Classes (cladocera, centropages, cladocera, jellyfish_type1, shrimp)
+![planktons](https://github.com/liyiyan128/EPCC-HPC-Deep-Learning-Plankton-Classification/blob/main/src/planktons.png "Images of Zooplanktons from Five Classes.")
 
 ## Reference
 
