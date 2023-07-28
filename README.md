@@ -1,10 +1,10 @@
-# Deep Learning: Image Classification Using CNN
+# Deep Learning: Plankton Classification
 
-This is my EPCC (University of Edinburgh) HPC summer school project on Deep Learning: Image Classification Using CNN on the Zooplankton Dataset supervised by Dr Chris Wood.
+This is my EPCC (University of Edinburgh) HPC summer school project on plankton image classification using CNN on the Zooplankton Dataset supervised by Dr Chris Wood.
 
 ## Contents
 
-- [Deep Learning: Image Classification Using CNN](#deep-learning-image-classification-using-cnn)
+- [Deep Learning: Plankton Classification](#deep-learning-plankton-classification)
   - [Contents](#contents)
   - [Introduction](#introduction)
   - [Transfer Learning](#transfer-learning)
