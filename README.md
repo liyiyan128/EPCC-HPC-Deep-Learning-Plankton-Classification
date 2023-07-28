@@ -1,8 +1,8 @@
 # Deep Learning: Image Classification Using CNN
 
-This is my EPCC (University of Edinburgh) HPC summer school project on Deep Learning: Image Classification Using CNN on the Zooplankton Dataset.
+<font size=4>
 
-<font size=3>
+This is my EPCC (University of Edinburgh) HPC summer school project on Deep Learning: Image Classification Using CNN on the Zooplankton Dataset.
 
 ## Contents
 
