@@ -1,8 +1,13 @@
 # Deep Learning: Image Classification Using CNN
 
-Contents:
+This is my EPCC (University of Edinburgh) HPC summer school project on Deep Learning: Image Classification Using CNN on the Zooplankton Dataset.
+
+<font size=3>
+
+## Contents
 
 - [Deep Learning: Image Classification Using CNN](#deep-learning-image-classification-using-cnn)
+  - [Contents](#contents)
   - [Introduction](#introduction)
   - [Transfer Learning](#transfer-learning)
     - [AlexNet](#alexnet)
@@ -15,7 +20,6 @@ Contents:
 
 ## Introduction
 
-This is my EPCC (University of Edinburgh) HPC summer school project on Deep Learning: Image Classification Using CNN on the Zooplankton Dataset.
 This project is based on the work of Tong (MSc in High Performance Computing at EPCC). [[1]](#reference) The code for `train_loop` and `model_evaluator` is from Tong's work.
 This work used the Cirrus UK National Tier-2 HPC Service at EPCC (http://www.cirrus.ac.uk) funded by the University of Edinburgh and EPSRC (EP/P020267/1).
 
